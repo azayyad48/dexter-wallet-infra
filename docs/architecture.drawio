@@ -1,0 +1,120 @@
+<mxfile host="app.diagrams.net" modified="2026-07-10T09:00:00.000Z" agent="drawio" version="24.7.5">
+  <diagram id="wallet-arch" name="Wallet Backend - AWS">
+    <mxGraphModel dx="1422" dy="798" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Mobile users -->
+        <mxCell id="users" value="Mobile app users&#10;(Nigeria)" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#232F3E;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.users;" vertex="1" parent="1">
+          <mxGeometry x="40" y="380" width="64" height="64" as="geometry" />
+        </mxCell>
+
+        <!-- AWS Cloud -->
+        <mxCell id="awscloud" value="AWS Cloud — eu-west-1" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=12;fontStyle=0;container=1;pointerEvents=0;collapsible=0;recursiveResize=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_aws_cloud_alt;strokeColor=#232F3E;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#232F3E;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="200" y="40" width="1160" height="830" as="geometry" />
+        </mxCell>
+
+        <!-- Route 53 -->
+        <mxCell id="r53" value="Route 53" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#8C4FFF;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.route_53;" vertex="1" parent="awscloud">
+          <mxGeometry x="60" y="60" width="60" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- WAF -->
+        <mxCell id="waf" value="AWS WAF&#10;(attached to ALB)" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#DD344C;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.waf;" vertex="1" parent="awscloud">
+          <mxGeometry x="200" y="60" width="60" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- VPC -->
+        <mxCell id="vpc" value="VPC 10.0.0.0/16 — 2 AZs" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=12;fontStyle=0;container=1;pointerEvents=0;collapsible=0;recursiveResize=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_vpc2;strokeColor=#8C4FFF;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#8C4FFF;dashed=0;" vertex="1" parent="awscloud">
+          <mxGeometry x="40" y="180" width="740" height="620" as="geometry" />
+        </mxCell>
+
+        <!-- Public subnets band -->
+        <mxCell id="pubsub" value="Public subnets — 10.0.0.0/24, 10.0.1.0/24 (one per AZ)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E9F3E6;strokeColor=#248814;verticalAlign=top;align=left;spacingLeft=10;fontColor=#248814;container=1;collapsible=0;" vertex="1" parent="vpc">
+          <mxGeometry x="20" y="40" width="700" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="alb" value="Application Load Balancer&#10;(HTTPS :443, ACM cert)" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#8C4FFF;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.elastic_load_balancing;" vertex="1" parent="pubsub">
+          <mxGeometry x="200" y="40" width="60" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="nat" value="NAT Gateway&#10;(per AZ in prod)" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#8C4FFF;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.nat_gateway;" vertex="1" parent="pubsub">
+          <mxGeometry x="480" y="40" width="60" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Private app subnets band -->
+        <mxCell id="appsub" value="Private app subnets — 10.0.10.0/24, 10.0.11.0/24 (route out via NAT)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E6F2F8;strokeColor=#147EBA;verticalAlign=top;align=left;spacingLeft=10;fontColor=#147EBA;container=1;collapsible=0;" vertex="1" parent="vpc">
+          <mxGeometry x="20" y="220" width="700" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="ecs" value="ECS Service — wallet-api&#10;(Fargate, min 2 tasks across AZs)" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#ED7100;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.ecs;" vertex="1" parent="appsub">
+          <mxGeometry x="110" y="50" width="60" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="fargate" value="Fargate tasks&#10;(auto scaling: CPU + req/target)" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#ED7100;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.fargate;" vertex="1" parent="appsub">
+          <mxGeometry x="380" y="50" width="60" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Private data subnets band -->
+        <mxCell id="datasub" value="Private data subnets — 10.0.20.0/24, 10.0.21.0/24 (no internet route)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F5EAF7;strokeColor=#C925D1;verticalAlign=top;align=left;spacingLeft=10;fontColor=#C925D1;container=1;collapsible=0;" vertex="1" parent="vpc">
+          <mxGeometry x="20" y="420" width="700" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="rds" value="RDS PostgreSQL — primary&#10;(encrypted, Multi-AZ)" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#C925D1;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.rds;" vertex="1" parent="datasub">
+          <mxGeometry x="110" y="50" width="60" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="rds2" value="RDS standby&#10;(other AZ, sync replication)" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#C925D1;strokeColor=none;dashed=0;opacity=60;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.rds;" vertex="1" parent="datasub">
+          <mxGeometry x="380" y="50" width="60" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Right-hand shared services -->
+        <mxCell id="ecr" value="ECR&#10;(image registry)" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#ED7100;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.elastic_container_registry;" vertex="1" parent="awscloud">
+          <mxGeometry x="880" y="220" width="60" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="secrets" value="Secrets Manager&#10;(DB creds, rotation)" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#DD344C;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.secrets_manager;" vertex="1" parent="awscloud">
+          <mxGeometry x="1000" y="220" width="60" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="kms" value="KMS&#10;(CMKs: RDS, S3, secrets)" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#DD344C;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.key_management_service;" vertex="1" parent="awscloud">
+          <mxGeometry x="880" y="360" width="60" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="cw" value="CloudWatch&#10;(logs, metrics, alarms)" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#E7157B;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloudwatch;" vertex="1" parent="awscloud">
+          <mxGeometry x="1000" y="360" width="60" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="s3" value="S3 — KYC documents&#10;(SSE-KMS, versioned, private)" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#7AA116;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.s3;" vertex="1" parent="awscloud">
+          <mxGeometry x="880" y="500" width="60" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="backup" value="Automated backups&#10;(PITR + daily snapshots, 30d)" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#7AA116;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.backup;" vertex="1" parent="awscloud">
+          <mxGeometry x="1000" y="500" width="60" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Edges -->
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=11;" edge="1" parent="1" source="users" target="r53">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" value="HTTPS" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=11;" edge="1" parent="awscloud" source="r53" target="alb">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2b" value="inspects" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=11;dashed=1;" edge="1" parent="awscloud" source="waf" target="alb">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" value="HTTP :8080&#10;(SG: ALB only)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=11;" edge="1" parent="vpc" source="alb" target="ecs">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" value=":5432&#10;(SG: app tasks only)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=11;" edge="1" parent="vpc" source="ecs" target="rds">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" value="pull images&#10;(VPC endpoint)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=11;dashed=1;" edge="1" parent="awscloud" source="ecs" target="ecr">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" value="fetch secrets at start" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=11;dashed=1;" edge="1" parent="awscloud" source="ecs" target="secrets">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" value="logs/metrics" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=11;dashed=1;" edge="1" parent="awscloud" source="fargate" target="cw">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" value="KYC uploads" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=11;dashed=1;" edge="1" parent="awscloud" source="ecs" target="s3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=11;dashed=1;" edge="1" parent="awscloud" source="rds" target="backup">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
