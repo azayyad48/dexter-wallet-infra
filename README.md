@@ -15,6 +15,10 @@ docker-compose.yml           runs the API locally
 .github/workflows/ci.yml     tests, image build + smoke test, terraform checks
 ```
 
+## Architecture
+
+![Architecture diagram](docs/architecture.png)
+
 ## Design in one paragraph
 
 A single VPC across two AZs with three subnet tiers: public (ALB + NAT only), private app (ECS Fargate tasks), and private data (RDS, no internet route at all). Traffic flows internet → ALB (WAF, TLS) → Fargate tasks → PostgreSQL, with each hop locked to the previous one's security group rather than CIDR ranges. Fargate over EKS/EC2 because a small team shouldn't spend its time on cluster or host management; RDS PostgreSQL Multi-AZ because wallet ledgers need ACID and automated failover. Full reasoning, including the region choice and cost notes, is in [docs/DESIGN.md](docs/DESIGN.md).
